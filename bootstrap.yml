@@ -1,5 +1,5 @@
 server:
-  port: 7014
+  port: 70145
 spring:
   application:
     name: zty-config
