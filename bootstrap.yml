@@ -1,0 +1,34 @@
+server:
+  port: 7014
+spring:
+  application:
+    name: zty-config
+  profiles:
+    active: native
+  main:
+    banner-mode: "off"
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/resposity/dev
+    consul:
+      host: zty-consul    #consul注册节点IP
+      port: 8500         #consul注册节点端口
+      discovery:
+        prefer-ip-address: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}  #实例ID
+        health-check-path: /actuator/health                                                       #健康检查
+        health-check-interval: 10s
+  rabbitmq:
+    #host文件中配置的地址
+    host: zty-rabbitmq
+    port: 5672
+    username: admin
+    password: Aa#123456
+# 开放 bus-refresh 接口，以便配合 bus 实现 配置的动态刷新
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

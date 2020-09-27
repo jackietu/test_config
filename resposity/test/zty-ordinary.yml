@@ -1,0 +1,179 @@
+szgm:
+  fileSavePath: /opt/app/msy/h5/upload
+  #Aes公共key
+  commonKey: szgm@2020#010756
+  swaggerEnable: true
+  #图片前缀
+  filePrePath: http://10.255.3.22:7050/upload
+  security: true
+  #rsa公钥
+  operatePubKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC35n5N6pBwqIp5HprtG+ZT5HvZJEBUB/IZ2hjU17WQaffBWF1Ux1lReI2ryzVzFDvZ+ziZupDenLqq1PN6Vdaae1BJXUxmdz+TUEB57oh1g02isoZw/dHK8dgOxnQ0Af0v252FeNryB0kGQ/VY6xuJCUFedvbdGPa+0ncNTJTqQIDAQAB
+  #rsa私钥
+  operatePriKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMLfmfk3qkHCoinkemu0b5lPke9kkQFQH8hnaGNTXtZBp98FYXVTHWVF4javLNXMUO9n7OJm6kN6cuqrU83pV1pp7UEldTGZ3P5NQQHnuiHWDTaKyhnD90crx2A7GdDQB/S/bnYV42vIHSQZD9VjrG4kJQV529t0Y9r7Sdw1MlOpAgMBAAECgYAt4wkWrgzhPzuAMdTB19MPfrUWcc/TR1K0leT2voLuYLduxI2WWuPpHPOPfOBJ17qXJRmaljFDgmnc6Erria6PqneWCpM/MbD8vZfq+bTLimYsv4QhGDd/m0tGNRQvapMx6RIMmHiLRLR/XH6yg24jmEFX0xV/TtVbrZz/YUH4AQJBAOV8L6+c2P2g6q4NwOhiEGqmOpiv/PSlWjqR9wUHC5IZjn5BT7166NxI42puU3Y3MjNZ42oxRHbn0mW1YkdThMkCQQDZY6frRe+vvX8CQhutuvvNDJ84BroAJd5MM2U5WfY7ocApfPKtyf39e8ytEhAooucqLPCeghK86NCp36QHECfhAkEA0tiVH67ml7GfraepVFm1Z6evMtaPfV/nVOUDprTgZq3ghBQR5a/l/29gs0sGmBkCoLe4ALufgfhhEV3kHFCaMQJASp+kB+aFBd3V2I+a8sNKJrRbf58HgH9/VMcby1kvZn76+QL0R2Ycc0RpGUwnEdwB4H92xeK+zexZnMaxht8r4QJBALVokM+oVAq8Ywd6yowjRh7+L1a4QM72k12oB+Cer++WT75NTWnDRQScAjDGYR5Z8Un9Brt5AZYfUwgMNlDZNO0=
+  appVersion: 2.0.27
+  oauth2:
+    #令牌时限 默认2小时
+    expire: 7200
+    #刷新令牌时限 3天
+    refreshToken: 259200
+#resttemp时限
+custom:
+  rest:
+    connection:
+      write-timeout: 2000
+      connect-timeout: 2000
+      read-timeout: 2000
+spring:
+  jackson:
+    default-property-inclusion: ALWAYS
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@10.255.3.20:1521:orcl
+    username: tyfb
+    password: tyfb
+    initialSize: 1
+    minIdle: 3
+    maxActive: 200
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    #useGlobalDataSourceStat: true
+  redis:
+    host: 10.255.3.21
+    port: 6379
+    timeout: 3000
+    database: 0
+    jedis:
+      pool:
+        max-idle: 50
+        min-idle: 5
+        max-active: 200
+        max-wait: 20ms
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: 20ms
+        max-idle: 50
+        min-idle: 5
+  rabbitmq:
+    #host文件中配置的地址
+    host: zty-rabbitmq
+    port: 5672
+    username: admin
+    password: Aa#123456
+  #链路跟踪配置
+  zipkin:
+    #base-url: http://localhost:9411
+    sender:
+      type: rabbit  # 切换到rabbitmq
+  sleuth:
+    sampler:
+      #应采样的请求的概率。 例如。 应该对1.0  -  100％的请求进行抽样。 精度仅为整数（即不支持0.1％的迹线）。
+      probability: 1.0
+##包米豆配置
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/*Mapper.xml
+  #### 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.szgm.zty.*.domain
+  global-config:
+    #### 数据库相关配置
+    db-config:
+      #### 主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: ASSIGN_ID
+      #### 字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      update-strategy: IGNORED
+      #### 驼峰下划线转换
+      column-underline: true
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+    banner: false
+  #### 原生配置
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+server:
+  tomcat:
+    max-threads: 500 # Maximum amount of worker threads.
+    min-spare-threads: 50 # Minimum amount of worker threads
+redis:
+  cache:
+    expiration: 3600
+##饿加载，解决feign超时
+ribbon:
+  eager-load:
+    enabled: true
+    clients: zty-flow,zty-event,zty-file,zty-patrol,zty-api,zty-system,zty-log
+  Httpclient:
+    enabled: false
+  OkHttp:
+    enabled: true
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+#feign 配置
+feign:
+  hystrix:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    #    feign.client.config.default.connect-timeout=20000
+    #    feign.client.config.default.read-timeout=20000
+    config:
+      feignName:
+        connectTimeout: 18000
+        readTimeout: 18000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+#熔断配置
+hystrix:
+  threadpool:
+    default:
+      coreSize: 500
+      maxQueueSize: 1000
+      queueSizeRejectionThreshold: 800
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+  ##zipkin启动报错解决
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
